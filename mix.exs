@@ -23,7 +23,7 @@ defmodule ExAwsConnect.MixProject do
     [
       {:ex_aws, "~> 2.1"},
       {:hackney, ">= 0.0.0", only: [:dev, :test]},
-      {:jason, ">= 0.0.0", only: [:dev, :test]},
+      {:jason, ">= 0.0.0", only: [:dev, :test]}
     ]
   end
 end

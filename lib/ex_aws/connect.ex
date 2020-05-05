@@ -4,10 +4,18 @@ defmodule ExAws.Connect do
   """
 
   @methods [
+    list_phone_numbers: :get,
     list_queues: :get,
     list_users: :get,
     start_outbound_voice_contact: :put
   ]
+
+  @doc "Provides information about the phone numbers in a specific Connect instance"
+  @spec list_phone_numbers() :: ExAws.Operation.JSON.t()
+  @spec list_phone_numbers(opts :: Keyword.t()) :: ExAws.Operation.JSON.t()
+  def list_phone_numbers(opts \\ []) do
+    request(:list_phone_numbers, opts)
+  end
 
   @doc "Provides information about the queues in a specific Connect instance"
   @spec list_queues() :: ExAws.Operation.JSON.t()
@@ -16,7 +24,7 @@ defmodule ExAws.Connect do
     request(:list_queues, opts)
   end
 
-  @doc "Provides information about the queues in a specific Connect users"
+  @doc "Provides information about the users in a specific Connect instance"
   @spec list_users() :: ExAws.Operation.JSON.t()
   @spec list_users(opts :: Keyword.t()) :: ExAws.Operation.JSON.t()
   def list_users(opts \\ []) do
@@ -43,9 +51,13 @@ defmodule ExAws.Connect do
   end
 
   defp with_data(%ExAws.Operation.JSON{http_method: :get} = json, opts),
-       do: %{json | params: parse_data(opts)}
+    do: %{json | params: parse_data(opts)}
+
   defp with_data(%ExAws.Operation.JSON{http_method: :put} = json, opts),
-       do: %{json | data: parse_data(opts)}
+    do: %{json | data: parse_data(opts)}
+
+  defp path(:list_phone_numbers, opts),
+    do: "/phone-numbers-summary/" <> Keyword.fetch!(opts, :instance_id)
 
   defp path(:list_queues, opts), do: "/queues-summary/" <> Keyword.fetch!(opts, :instance_id)
   defp path(:list_users, opts), do: "/users-summary/" <> Keyword.fetch!(opts, :instance_id)
